@@ -314,4 +314,3 @@ export const generateTemplate1HTML = (cvData: CVData): string => {
     </html>
   `;
 };
-};
