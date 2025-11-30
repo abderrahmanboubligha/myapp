@@ -15,42 +15,17 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import * as ImagePicker from 'expo-image-picker';
 import * as Sharing from 'expo-sharing';
-
-type CVData = {
-  profileImage: string | null;
-  fullName: string;
-  jobTitle: string;
-  phone: string;
-  email: string;
-  address: string;
-  about: string;
-  experiences: {
-    position: string;
-    company: string;
-    location: string;
-    period: string;
-    description: string;
-  }[];
-  education: {
-    degree: string;
-    university: string;
-    period: string;
-  }[];
-  expertise: string[];
-  languages: string[];
-  references: {
-    name: string;
-    position: string;
-    phone: string;
-    email: string;
-  }[];
-  includeHobbies: boolean;
-  hobbies: string[];
-};
+import * as FileSystem from 'expo-file-system';
+import { CVData } from '../types/cv';
+import { generateTemplate1HTML } from '../templates/template1';
+import { generateTemplate2HTML } from '../templates/template2';
+import { generateTemplate3HTML } from '../templates/template3';
+import { generateTemplate4HTML } from '../templates/template4';
 
 export default function CVBuilderScreen() {
   const router = useRouter();
   const [step, setStep] = useState(1);
+  const [selectedTemplate, setSelectedTemplate] = useState(1); // 1, 2, 3, or 4
   const [showExportModal, setShowExportModal] = useState(false);
   const [exportProgress, setExportProgress] = useState(0);
   const [isExporting, setIsExporting] = useState(false);
@@ -206,327 +181,48 @@ export default function CVBuilderScreen() {
   };
 
   const exportToPDF = async () => {
-    if (Platform.OS !== 'web') {
-      setExportError('PDF export is only supported on web at the moment.');
-      return;
-    }
+    const fileName = `CV_${cvData.fullName.replace(/\s+/g, '_') || 'user'}_${Date.now()}.pdf`;
 
     try {
       setShowExportModal(true);
       setIsExporting(true);
       setExportProgress(0);
 
+      // Progress simulation
       const progressInterval = setInterval(() => {
-        setExportProgress((prev) => {
-          if (prev >= 90) {
-            clearInterval(progressInterval);
-            return 90;
-          }
-          return prev + 10;
-        });
-      }, 3000);
+        setExportProgress((p) => (p >= 95 ? p : p + 5));
+      }, 400);
 
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      // Generate HTML with selected template
+      const getTemplateHTML = (templateNum: number) => {
+        if (templateNum === 1) {
+          return generateTemplate1HTML(cvData);
+        } else if (templateNum === 2) {
+          return generateTemplate2HTML(cvData);
+        } else if (templateNum === 3) {
+          return generateTemplate3HTML(cvData);
+        } else if (templateNum === 4) {
+          return generateTemplate4HTML(cvData);
+        } else {
+          return generateTemplate1HTML(cvData); // Default fallback
+        }
+      };
 
-      const {
-        Document,
-        Page,
-        View: PDFView,
-        Text: PDFText,
-        Image: PDFImage,
-        StyleSheet: PDFStyles,
-      } = await import('@react-pdf/renderer');
+      const html = getTemplateHTML(selectedTemplate);
 
-      const pdfStyles = PDFStyles.create({
-        page: {
-          flexDirection: 'row',
-          backgroundColor: '#ffffff',
-          fontFamily: 'Helvetica',
-        },
-        sidebar: {
-          width: '35%',
-          backgroundColor: '#374151',
-          padding: 20,
-        },
-        main: {
-          width: '65%',
-          padding: 24,
-        },
-        profileImage: {
-          width: 80,
-          height: 80,
-          borderRadius: 40,
-          marginBottom: 16,
-          alignSelf: 'center',
-        },
-        sectionTitle: {
-          fontSize: 12,
-          fontWeight: 'bold',
-          color: '#ffffff',
-          marginTop: 16,
-          marginBottom: 8,
-        },
-        sectionTitleUnderline: {
-          height: 1,
-          backgroundColor: '#ffffff',
-          marginBottom: 12,
-          width: '100%',
-        },
-        contactItem: {
-          marginBottom: 8,
-        },
-        contactLabel: {
-          fontSize: 8,
-          color: '#d1d5db',
-        },
-        contactValue: {
-          fontSize: 9,
-          color: '#ffffff',
-        },
-        educationItem: {
-          marginBottom: 12,
-        },
-        educationPeriod: {
-          fontSize: 8,
-          color: '#d1d5db',
-        },
-        educationDegree: {
-          fontSize: 9,
-          fontWeight: 'bold',
-          color: '#ffffff',
-        },
-        educationUniversity: {
-          fontSize: 8,
-          color: '#d1d5db',
-        },
-        listItem: {
-          fontSize: 9,
-          color: '#ffffff',
-          marginBottom: 4,
-        },
-        name: {
-          fontSize: 24,
-          fontWeight: 'bold',
-          color: '#1f2937',
-          marginBottom: 4,
-        },
-        jobTitle: {
-          fontSize: 12,
-          color: '#6b7280',
-          marginBottom: 12,
-        },
-        about: {
-          fontSize: 9,
-          color: '#4b5563',
-          lineHeight: 1.5,
-          marginBottom: 16,
-        },
-        mainSectionTitle: {
-          fontSize: 14,
-          fontWeight: 'bold',
-          color: '#1f2937',
-          marginTop: 12,
-          marginBottom: 8,
-        },
-        mainSectionDivider: {
-          height: 1,
-          backgroundColor: '#e5e7eb',
-          marginBottom: 12,
-        },
-        headerDivider: {
-          height: 1,
-          backgroundColor: '#e5e7eb',
-          marginTop: 8,
-          marginBottom: 16,
-        },
-        experienceItem: {
-          marginBottom: 12,
-        },
-        experiencePosition: {
-          fontSize: 11,
-          fontWeight: 'bold',
-          color: '#1f2937',
-        },
-        experiencePeriod: {
-          fontSize: 9,
-          color: '#6b7280',
-        },
-        experienceCompany: {
-          fontSize: 9,
-          color: '#6b7280',
-        },
-        experienceDescription: {
-          fontSize: 8,
-          color: '#4b5563',
-          lineHeight: 1.4,
-          marginTop: 4,
-        },
-        referencesRow: {
-          flexDirection: 'row',
-        },
-        referenceItem: {
-          flex: 1,
-          marginRight: 12,
-        },
-        referenceName: {
-          fontSize: 10,
-          fontWeight: 'bold',
-          color: '#1f2937',
-        },
-        referencePosition: {
-          fontSize: 8,
-          color: '#6b7280',
-        },
-        referenceContact: {
-          fontSize: 7,
-          color: '#6b7280',
-        },
-      });
+      // Mobile PDF generation using expo-print
+      if (Platform.OS !== 'web') {
+        try {
+          // Dynamic import for mobile
+          const Print = await import('expo-print');
+          const { uri } = await Print.printToFileAsync({ html });
 
-      const CVDocument = (
-        <Document>
-          <Page size="A4" style={pdfStyles.page}>
-            <PDFView style={pdfStyles.sidebar}>
-              {cvData.profileImage && (
-                <PDFImage src={cvData.profileImage} style={pdfStyles.profileImage} />
-              )}
+          clearInterval(progressInterval);
+          setExportProgress(100);
 
-              <PDFView>
-                <PDFText style={pdfStyles.sectionTitle}>Contact</PDFText>
-                <PDFView style={pdfStyles.sectionTitleUnderline} />
-                <PDFView style={pdfStyles.contactItem}>
-                  <PDFText style={pdfStyles.contactLabel}>Phone</PDFText>
-                  <PDFText style={pdfStyles.contactValue}>{cvData.phone}</PDFText>
-                </PDFView>
-                <PDFView style={pdfStyles.contactItem}>
-                  <PDFText style={pdfStyles.contactLabel}>Email</PDFText>
-                  <PDFText style={pdfStyles.contactValue}>{cvData.email}</PDFText>
-                </PDFView>
-                <PDFView style={pdfStyles.contactItem}>
-                  <PDFText style={pdfStyles.contactLabel}>Address</PDFText>
-                  <PDFText style={pdfStyles.contactValue}>{cvData.address}</PDFText>
-                </PDFView>
-              </PDFView>
-
-              {cvData.education.length > 0 && (
-                <PDFView>
-                  <PDFText style={pdfStyles.sectionTitle}>Education</PDFText>
-                  <PDFView style={pdfStyles.sectionTitleUnderline} />
-                  {cvData.education.map((edu, index) => (
-                    <PDFView key={index} style={pdfStyles.educationItem}>
-                      <PDFText style={pdfStyles.educationPeriod}>{edu.period}</PDFText>
-                      <PDFText style={pdfStyles.educationDegree}>{edu.degree}</PDFText>
-                      <PDFText style={pdfStyles.educationUniversity}>{edu.university}</PDFText>
-                    </PDFView>
-                  ))}
-                </PDFView>
-              )}
-
-              {cvData.expertise.length > 0 && (
-                <PDFView>
-                  <PDFText style={pdfStyles.sectionTitle}>Expertise</PDFText>
-                  <PDFView style={pdfStyles.sectionTitleUnderline} />
-                  {cvData.expertise.map((item, index) => (
-                    <PDFText key={index} style={pdfStyles.listItem}>• {item}</PDFText>
-                  ))}
-                </PDFView>
-              )}
-
-              {cvData.languages.length > 0 && (
-                <PDFView>
-                  <PDFText style={pdfStyles.sectionTitle}>Language</PDFText>
-                  <PDFView style={pdfStyles.sectionTitleUnderline} />
-                  {cvData.languages.map((item, index) => (
-                    <PDFText key={index} style={pdfStyles.listItem}>{item}</PDFText>
-                  ))}
-                </PDFView>
-              )}
-            </PDFView>
-
-            <PDFView style={pdfStyles.main}>
-              <PDFView>
-                <PDFText style={pdfStyles.name}>{cvData.fullName}</PDFText>
-                <PDFText style={pdfStyles.jobTitle}>{cvData.jobTitle}</PDFText>
-                <PDFView style={pdfStyles.headerDivider} />
-              </PDFView>
-
-              {cvData.about && (
-                <PDFText style={pdfStyles.about}>{cvData.about}</PDFText>
-              )}
-
-              {cvData.experiences.length > 0 && (
-                <PDFView>
-                  <PDFText style={pdfStyles.mainSectionTitle}>Experience</PDFText>
-                  <PDFView style={pdfStyles.mainSectionDivider} />
-                  {cvData.experiences.map((exp, index) => (
-                    <PDFView key={index} style={pdfStyles.experienceItem}>
-                      <PDFText style={pdfStyles.experiencePosition}>{exp.position}</PDFText>
-                      <PDFText style={pdfStyles.experiencePeriod}>{exp.period}</PDFText>
-                      <PDFText style={pdfStyles.experienceCompany}>
-                        {exp.company}{exp.location ? ` | ${exp.location}` : ''}
-                      </PDFText>
-                      {exp.description && (
-                        <PDFText style={pdfStyles.experienceDescription}>{exp.description}</PDFText>
-                      )}
-                    </PDFView>
-                  ))}
-                </PDFView>
-              )}
-
-              {cvData.references.length > 0 && cvData.references.some((ref) => ref.name) && (
-                <PDFView>
-                  <PDFText style={pdfStyles.mainSectionTitle}>Reference</PDFText>
-                  <PDFView style={pdfStyles.mainSectionDivider} />
-                  <PDFView style={pdfStyles.referencesRow}>
-                    {cvData.references.map((ref, index) =>
-                      ref.name ? (
-                        <PDFView key={index} style={pdfStyles.referenceItem}>
-                          <PDFText style={pdfStyles.referenceName}>{ref.name}</PDFText>
-                          <PDFText style={pdfStyles.referencePosition}>{ref.position}</PDFText>
-                          <PDFText style={pdfStyles.referenceContact}>Phone: {ref.phone}</PDFText>
-                          <PDFText style={pdfStyles.referenceContact}>Email: {ref.email}</PDFText>
-                        </PDFView>
-                      ) : null
-                    )}
-                  </PDFView>
-                </PDFView>
-              )}
-            </PDFView>
-          </Page>
-        </Document>
-      );
-
-      const blob = await pdf(CVDocument).toBlob();
-      console.log('Generated PDF blob:', blob.size, 'bytes');
-
-      clearInterval(progressInterval);
-      setExportProgress(100);
-
-      await new Promise((resolve) => setTimeout(resolve, 500));
-
-      const fileName = `CV_${cvData.fullName.replace(/\s+/g, '_')}_${Date.now()}.pdf`;
-
-      if (Platform.OS === 'web') {
-        const url = URL.createObjectURL(blob);
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = fileName;
-        link.click();
-        URL.revokeObjectURL(url);
-        console.log('PDF downloaded on web');
-      } else {
-        const { File, Paths } = await import('expo-file-system');
-        const reader = new FileReader();
-        
-        reader.onloadend = async () => {
-          const base64data = (reader.result as string).split(',')[1];
-          const file = new File(Paths.cache, fileName);
-          await file.write(base64data, { encoding: 'base64' as any });
-          
-          console.log('CV saved to:', file.uri);
-
+          // Share the PDF
           if (await Sharing.isAvailableAsync()) {
-            await Sharing.shareAsync(file.uri, {
+            await Sharing.shareAsync(uri, {
               mimeType: 'application/pdf',
               dialogTitle: 'Save your CV',
               UTI: 'com.adobe.pdf',
@@ -534,21 +230,37 @@ export default function CVBuilderScreen() {
           } else {
             setExportSuccess(true);
           }
-        };
-        
-        reader.readAsDataURL(blob);
+
+          setIsExporting(false);
+          setShowExportModal(false);
+          setExportProgress(0);
+          return;
+        } catch (mobileError) {
+          console.error('Mobile PDF export failed:', mobileError);
+          setExportError(`Mobile PDF export failed: ${mobileError.message}`);
+        }
+      } else {
+        // Web fallback - download HTML as file for now
+        const blob = new Blob([html], { type: 'text/html' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = fileName.replace('.pdf', '.html');
+        link.click();
+        URL.revokeObjectURL(url);
       }
 
+      clearInterval(progressInterval);
       setIsExporting(false);
-      await new Promise((resolve) => setTimeout(resolve, 500));
       setShowExportModal(false);
       setExportProgress(0);
+
     } catch (error) {
       console.error('Error exporting CV:', error);
       setIsExporting(false);
       setShowExportModal(false);
       setExportProgress(0);
-      setExportError('Failed to export CV. Please try again.');
+      setExportError(`Failed to export CV: ${error.message}`);
     }
   };
 
@@ -983,6 +695,77 @@ export default function CVBuilderScreen() {
       case 6:
         return (
           <View style={styles.previewContainer}>
+            {/* Template selector */}
+            <View style={styles.templateSelector}>
+              <Text style={styles.selectorTitle}>Choose Template:</Text>
+              <View style={styles.templateButtons}>
+                <TouchableOpacity
+                  style={[
+                    styles.templateButton,
+                    selectedTemplate === 1 && styles.templateButtonActive,
+                  ]}
+                  onPress={() => setSelectedTemplate(1)}
+                >
+                  <Text
+                    style={[
+                      styles.templateButtonText,
+                      selectedTemplate === 1 && styles.templateButtonTextActive,
+                    ]}
+                  >
+                    Template 1 (Sidebar)
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={[
+                    styles.templateButton,
+                    selectedTemplate === 2 && styles.templateButtonActive,
+                  ]}
+                  onPress={() => setSelectedTemplate(2)}
+                >
+                  <Text
+                    style={[
+                      styles.templateButtonText,
+                      selectedTemplate === 2 && styles.templateButtonTextActive,
+                    ]}
+                  >
+                    Template 2 (Modern)
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={[
+                    styles.templateButton,
+                    selectedTemplate === 3 && styles.templateButtonActive,
+                  ]}
+                  onPress={() => setSelectedTemplate(3)}
+                >
+                  <Text
+                    style={[
+                      styles.templateButtonText,
+                      selectedTemplate === 3 && styles.templateButtonTextActive,
+                    ]}
+                  >
+                    Template 3 (Professional)
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={[
+                    styles.templateButton,
+                    selectedTemplate === 4 && styles.templateButtonActive,
+                  ]}
+                  onPress={() => setSelectedTemplate(4)}
+                >
+                  <Text
+                    style={[
+                      styles.templateButtonText,
+                      selectedTemplate === 4 && styles.templateButtonTextActive,
+                    ]}
+                  >
+                    Template 4 (Timeline)
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+
             <View style={styles.viewShot}>
               <View style={styles.cvContainer}>
                 <View style={styles.cvSidebar}>
@@ -997,15 +780,15 @@ export default function CVBuilderScreen() {
                     <Text style={styles.cvSectionTitle}>Contact</Text>
                     <View style={styles.cvContactItem}>
                       <Text style={styles.cvContactLabel}>Phone</Text>
-                      <Text style={styles.cvContactValue}>{cvData.phone}</Text>
+                      <Text style={styles.cvContactValue}>{cvData.phone || 'N/A'}</Text>
                     </View>
                     <View style={styles.cvContactItem}>
                       <Text style={styles.cvContactLabel}>Email</Text>
-                      <Text style={styles.cvContactValue}>{cvData.email}</Text>
+                      <Text style={styles.cvContactValue}>{cvData.email || 'N/A'}</Text>
                     </View>
                     <View style={styles.cvContactItem}>
                       <Text style={styles.cvContactLabel}>Address</Text>
-                      <Text style={styles.cvContactValue}>{cvData.address}</Text>
+                      <Text style={styles.cvContactValue}>{cvData.address || 'N/A'}</Text>
                     </View>
                   </View>
 
@@ -1053,8 +836,8 @@ export default function CVBuilderScreen() {
 
                 <View style={styles.cvMain}>
                   <View style={styles.cvHeader}>
-                    <Text style={styles.cvName}>{cvData.fullName}</Text>
-                    <Text style={styles.cvJobTitle}>{cvData.jobTitle}</Text>
+                    <Text style={styles.cvName}>{cvData.fullName || 'Your Name'}</Text>
+                    <Text style={styles.cvJobTitle}>{cvData.jobTitle || 'Your Job Title'}</Text>
                   </View>
 
                   {cvData.about && (
@@ -1119,7 +902,7 @@ export default function CVBuilderScreen() {
             </View>
 
             <View style={styles.bannerAd}>
-              <Text style={styles.bannerText}>Advertisement Space</Text>
+              <Text style={styles.bannerText}>Template {selectedTemplate} Selected • Real data will be exported to PDF</Text>
             </View>
           </View>
         );
@@ -1499,6 +1282,51 @@ const styles = StyleSheet.create({
   },
   previewContainer: {
     gap: 16,
+  },
+  templateSelector: {
+    backgroundColor: '#fff',
+    borderRadius: 12,
+    padding: 16,
+    marginBottom: 16,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
+    elevation: 2,
+  },
+  selectorTitle: {
+    fontSize: 16,
+    fontWeight: 'bold' as const,
+    color: '#1f2937',
+    marginBottom: 12,
+  },
+  templateButtons: {
+    flexDirection: 'row',
+    gap: 6,
+    flexWrap: 'wrap',
+  },
+  templateButton: {
+    flex: 1,
+    minWidth: 110,
+    backgroundColor: '#f3f4f6',
+    borderRadius: 8,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    borderWidth: 1,
+    borderColor: '#e5e7eb',
+  },
+  templateButtonActive: {
+    backgroundColor: '#eff6ff',
+    borderColor: '#3b82f6',
+  },
+  templateButtonText: {
+    fontSize: 14,
+    fontWeight: '600' as const,
+    color: '#6b7280',
+    textAlign: 'center' as const,
+  },
+  templateButtonTextActive: {
+    color: '#3b82f6',
   },
   viewShot: {
     backgroundColor: '#fff',

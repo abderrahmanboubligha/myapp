@@ -1,0 +1,373 @@
+
+    <!doctype html>
+    <html>
+    <head>
+      <meta charset="utf-8">
+      <style>
+        @page { size: A4; margin: 0; }
+        body { 
+          font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+          margin: 0; 
+          padding: 0; 
+          background: #FAFAFA; 
+          color: #34495E;
+          line-height: 1.5;
+        }
+        .container {
+          min-height: 297mm;
+          background: #FAFAFA;
+        }
+        
+        /* Header Section */
+        .header {
+          background: #F5F5F5;
+          padding: 24px;
+          text-align: center;
+          margin-bottom: 16px;
+        }
+        .avatar-container {
+          margin-bottom: 16px;
+        }
+        .avatar {
+          width: 96px;
+          height: 96px;
+          border-radius: 50%;
+          border: 4px solid #E0E0E0;
+          object-fit: cover;
+          display: block;
+          margin: 0 auto;
+        }
+        .name {
+          font-size: 32px;
+          font-weight: bold;
+          color: #2C3E50;
+          margin-bottom: 4px;
+          letter-spacing: 1px;
+        }
+        .job-title {
+          font-size: 18px;
+          color: #7F8C8D;
+          margin-bottom: 16px;
+          font-weight: 500;
+        }
+        .contact-info {
+          text-align: center;
+        }
+        .contact-text {
+          font-size: 14px;
+          color: #34495E;
+          margin: 4px 0;
+          display: block;
+        }
+        
+        /* Section Styles */
+        .section {
+          background: #FFFFFF;
+          padding: 24px;
+          margin-bottom: 16px;
+          border-radius: 8px;
+          box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .section-title {
+          font-size: 22px;
+          font-weight: bold;
+          color: #2C3E50;
+          text-align: center;
+          margin-bottom: 20px;
+          letter-spacing: 2px;
+          text-transform: uppercase;
+        }
+        .about-text {
+          font-size: 15px;
+          color: #34495E;
+          line-height: 24px;
+          text-align: center;
+        }
+        
+        /* Timeline Styles */
+        .timeline-item {
+          display: flex;
+          margin-bottom: 24px;
+          position: relative;
+        }
+        .timeline-period {
+          font-size: 14px;
+          font-weight: 600;
+          color: #7F8C8D;
+          width: 100px;
+          text-align: right;
+          padding-right: 16px;
+          flex-shrink: 0;
+        }
+        .timeline-content {
+          flex: 1;
+          position: relative;
+          padding-left: 20px;
+        }
+        .timeline-dot {
+          position: absolute;
+          left: -7px;
+          top: 4px;
+          width: 12px;
+          height: 12px;
+          border-radius: 50%;
+          background: #3498DB;
+        }
+        .timeline-line {
+          position: absolute;
+          left: -1px;
+          top: 16px;
+          width: 2px;
+          height: calc(100% + 8px);
+          background: #E0E0E0;
+        }
+        .timeline-title {
+          font-size: 15px;
+          font-weight: bold;
+          color: #34495E;
+          margin-bottom: 8px;
+          text-transform: uppercase;
+        }
+        .timeline-description {
+          font-size: 14px;
+          color: #7F8C8D;
+          line-height: 21px;
+        }
+        
+        /* Skills Grid */
+        .skills-grid {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 12px;
+        }
+        .skill-item {
+          background: #EDF2F7;
+          padding: 10px 16px;
+          border-radius: 8px;
+          width: calc(50% - 6px);
+        }
+        .skill-text {
+          font-size: 14px;
+          font-weight: 500;
+          color: #34495E;
+        }
+      </style>
+    </head>
+    <body>
+      <div class="container">
+        <!-- Header Section -->
+        <div class="header">
+          <div class="avatar-container">
+            <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=200&h=200&fit=crop" class="avatar"/>
+          </div>
+          
+          <div class="header-info">
+            <div class="name">Sarah Johnson</div>
+            <div class="job-title">Senior Frontend Developer</div>
+            
+            <div class="contact-info">
+              <span class="contact-text">📱 +1 (555) 123-4567</span>
+              <span class="contact-text">✉️ sarah.johnson@email.com</span>
+              <span class="contact-text">📍 San Francisco, CA, USA</span>
+            </div>
+          </div>
+        </div>
+
+        
+          <!-- About Me Section -->
+          <div class="section">
+            <div class="section-title">About Me</div>
+            <div class="about-text">Passionate frontend developer with 5+ years of experience creating responsive web applications using React, TypeScript, and modern CSS frameworks. Strong advocate for user experience and accessibility, with a proven track record of delivering high-quality solutions in fast-paced environments.</div>
+          </div>
+        
+
+        
+          <!-- Education Section -->
+          <div class="section">
+            <div class="section-title">Education</div>
+            
+            
+              <div class="timeline-item">
+                <div class="timeline-period">2015 - 2019</div>
+                <div class="timeline-content">
+                  <div class="timeline-dot"></div>
+                  <div class="timeline-line"></div>
+                  <div>
+                    <div class="timeline-title">
+                      Stanford University | Bachelor of Science in Computer Science
+                    </div>
+                    <div class="timeline-description">
+                      Completed Bachelor of Science in Computer Science at Stanford University with focus on academic excellence and practical application of knowledge.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            
+              <div class="timeline-item">
+                <div class="timeline-period">2018</div>
+                <div class="timeline-content">
+                  <div class="timeline-dot"></div>
+                  
+                  <div>
+                    <div class="timeline-title">
+                      FreeCodeCamp | Frontend Development Certification
+                    </div>
+                    <div class="timeline-description">
+                      Completed Frontend Development Certification at FreeCodeCamp with focus on academic excellence and practical application of knowledge.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            
+          </div>
+        
+
+        
+          <!-- Work Experience Section -->
+          <div class="section">
+            <div class="section-title">Work Experience</div>
+            
+            
+              <div class="timeline-item">
+                <div class="timeline-period">2022 - Present</div>
+                <div class="timeline-content">
+                  <div class="timeline-dot"></div>
+                  <div class="timeline-line"></div>
+                  <div>
+                    <div class="timeline-title">
+                      TechCorp Solutions | Senior Frontend Developer
+                    </div>
+                    <div class="timeline-description">
+                      Lead frontend development for enterprise SaaS platform serving 10,000+ users. Architected reusable component library and improved application performance by 40%.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            
+              <div class="timeline-item">
+                <div class="timeline-period">2020 - 2022</div>
+                <div class="timeline-content">
+                  <div class="timeline-dot"></div>
+                  <div class="timeline-line"></div>
+                  <div>
+                    <div class="timeline-title">
+                      InnovateWeb Agency | Frontend Developer
+                    </div>
+                    <div class="timeline-description">
+                      Developed responsive websites and web applications for diverse clients. Collaborated with UX designers to implement pixel-perfect designs and ensure optimal user experience.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            
+              <div class="timeline-item">
+                <div class="timeline-period">2019 - 2020</div>
+                <div class="timeline-content">
+                  <div class="timeline-dot"></div>
+                  
+                  <div>
+                    <div class="timeline-title">
+                      StartupXYZ | Junior Frontend Developer
+                    </div>
+                    <div class="timeline-description">
+                      Built interactive user interfaces using React and Redux. Contributed to the development of a mobile-first e-commerce platform that increased conversion rates by 25%.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            
+          </div>
+        
+
+        
+          <!-- Skills Section -->
+          <div class="section">
+            <div class="section-title">Skills</div>
+            <div class="skills-grid">
+              
+                  <div class="skill-item">
+                    <div class="skill-text">• React & Next.js</div>
+                  </div>
+                
+                  <div class="skill-item">
+                    <div class="skill-text">• TypeScript</div>
+                  </div>
+                
+                  <div class="skill-item">
+                    <div class="skill-text">• HTML5 & CSS3</div>
+                  </div>
+                
+                  <div class="skill-item">
+                    <div class="skill-text">• JavaScript (ES6+)</div>
+                  </div>
+                
+                  <div class="skill-item">
+                    <div class="skill-text">• Responsive Design</div>
+                  </div>
+                
+                  <div class="skill-item">
+                    <div class="skill-text">• Git & Version Control</div>
+                  </div>
+                
+                  <div class="skill-item">
+                    <div class="skill-text">• RESTful APIs</div>
+                  </div>
+                
+                  <div class="skill-item">
+                    <div class="skill-text">• Testing (Jest, Cypress)</div>
+                  </div>
+                
+                  <div class="skill-item">
+                    <div class="skill-text">• Webpack & Build Tools</div>
+                  </div>
+                
+                  <div class="skill-item">
+                    <div class="skill-text">• Figma & Design Systems</div>
+                  </div>
+                
+              
+                  <div class="skill-item">
+                    <div class="skill-text">• English (Native)</div>
+                  </div>
+                
+                  <div class="skill-item">
+                    <div class="skill-text">• Spanish (Conversational)</div>
+                  </div>
+                
+                  <div class="skill-item">
+                    <div class="skill-text">• French (Basic)</div>
+                  </div>
+                
+            </div>
+          </div>
+        
+
+        
+          <!-- References Section -->
+          <div class="section">
+            <div class="section-title">References</div>
+            
+              <div class="timeline-item">
+                <div class="timeline-content">
+                  <div class="timeline-title">Michael Chen - Lead Developer at TechCorp</div>
+                  <div class="timeline-description">
+                    Phone: +1 (555) 987-6543 | Email: m.chen@techcorp.com
+                  </div>
+                </div>
+              </div>
+            
+              <div class="timeline-item">
+                <div class="timeline-content">
+                  <div class="timeline-title">Emily Rodriguez - Product Manager at InnovateWeb</div>
+                  <div class="timeline-description">
+                    Phone: +1 (555) 456-7890 | Email: emily.r@innovateweb.com
+                  </div>
+                </div>
+              </div>
+            
+          </div>
+        
+      </div>
+    </body>
+    </html>
+  

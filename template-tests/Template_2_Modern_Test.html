@@ -1,0 +1,152 @@
+
+    <!doctype html>
+    <html>
+    <head>
+      <meta charset="utf-8">
+      <style>
+        @page { size: A4; margin: 20mm; }
+        body { font-family: Arial, sans-serif; margin:0; padding:0; color:#333; line-height:1.4; }
+        .header { text-align:center; border-bottom:2px solid #3b82f6; padding-bottom:20px; margin-bottom:24px; }
+        .profile-img { width:100px; height:100px; border-radius:50%; object-fit:cover; margin:0 auto 16px; display:block; }
+        .name { font-size:32px; font-weight:bold; margin-bottom:8px; color:#1f2937; }
+        .job-title { font-size:18px; color:#3b82f6; margin-bottom:12px; }
+        .contact-row { display:flex; justify-content:center; gap:20px; flex-wrap:wrap; font-size:12px; color:#6b7280; }
+        .section { margin-bottom:24px; }
+        .section-title { font-size:18px; font-weight:bold; color:#1f2937; border-bottom:1px solid #e5e7eb; padding-bottom:6px; margin-bottom:12px; }
+        .about-text { font-size:12px; text-align:justify; }
+        .exp-item, .edu-item { margin-bottom:16px; }
+        .exp-header { display:flex; justify-content:space-between; align-items:baseline; margin-bottom:4px; }
+        .exp-position { font-weight:bold; font-size:14px; }
+        .exp-period { font-size:12px; color:#6b7280; }
+        .exp-company { font-size:12px; color:#6b7280; margin-bottom:6px; }
+        .exp-desc { font-size:11px; }
+        .skills-grid { display:flex; flex-wrap:wrap; gap:8px; }
+        .skill-tag { background:#f3f4f6; padding:4px 8px; border-radius:4px; font-size:11px; }
+        .refs-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+        .ref-item { font-size:11px; }
+        .ref-name { font-weight:bold; margin-bottom:2px; }
+      </style>
+    </head>
+    <body>
+      <div class="header">
+        <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=200&h=200&fit=crop" class="profile-img"/>
+        <div class="name">Sarah Johnson</div>
+        <div class="job-title">Senior Frontend Developer</div>
+        <div class="contact-row">
+          <span>+1 (555) 123-4567</span>
+          <span>sarah.johnson@email.com</span>
+          <span>San Francisco, CA, USA</span>
+        </div>
+      </div>
+
+      
+        <div class="section">
+          <div class="section-title">About</div>
+          <div class="about-text">Passionate frontend developer with 5+ years of experience creating responsive web applications using React, TypeScript, and modern CSS frameworks. Strong advocate for user experience and accessibility, with a proven track record of delivering high-quality solutions in fast-paced environments.</div>
+        </div>
+      
+
+      
+        <div class="section">
+          <div class="section-title">Professional Experience</div>
+          
+            <div class="exp-item">
+              <div class="exp-header">
+                <div class="exp-position">Senior Frontend Developer</div>
+                <div class="exp-period">2022 - Present</div>
+              </div>
+              <div class="exp-company">TechCorp Solutions | San Francisco, CA</div>
+              <div class="exp-desc">Lead frontend development for enterprise SaaS platform serving 10,000+ users. Architected reusable component library and improved application performance by 40%.</div>
+            </div>
+          
+            <div class="exp-item">
+              <div class="exp-header">
+                <div class="exp-position">Frontend Developer</div>
+                <div class="exp-period">2020 - 2022</div>
+              </div>
+              <div class="exp-company">InnovateWeb Agency | Remote</div>
+              <div class="exp-desc">Developed responsive websites and web applications for diverse clients. Collaborated with UX designers to implement pixel-perfect designs and ensure optimal user experience.</div>
+            </div>
+          
+            <div class="exp-item">
+              <div class="exp-header">
+                <div class="exp-position">Junior Frontend Developer</div>
+                <div class="exp-period">2019 - 2020</div>
+              </div>
+              <div class="exp-company">StartupXYZ | San Francisco, CA</div>
+              <div class="exp-desc">Built interactive user interfaces using React and Redux. Contributed to the development of a mobile-first e-commerce platform that increased conversion rates by 25%.</div>
+            </div>
+          
+        </div>
+      
+
+      
+        <div class="section">
+          <div class="section-title">Education</div>
+          
+            <div class="edu-item">
+              <div style="display:flex;justify-content:space-between;align-items:baseline;">
+                <div style="font-weight:bold;font-size:14px;">Bachelor of Science in Computer Science</div>
+                <div style="font-size:12px;color:#6b7280;">2015 - 2019</div>
+              </div>
+              <div style="font-size:12px;color:#6b7280;">Stanford University</div>
+            </div>
+          
+            <div class="edu-item">
+              <div style="display:flex;justify-content:space-between;align-items:baseline;">
+                <div style="font-weight:bold;font-size:14px;">Frontend Development Certification</div>
+                <div style="font-size:12px;color:#6b7280;">2018</div>
+              </div>
+              <div style="font-size:12px;color:#6b7280;">FreeCodeCamp</div>
+            </div>
+          
+        </div>
+      
+
+      
+        <div class="section">
+          <div class="section-title">Skills & Languages</div>
+          
+            <div style="margin-bottom:12px;">
+              <div style="font-weight:bold;margin-bottom:6px;">Technical Skills</div>
+              <div class="skills-grid">
+                <div class="skill-tag">React & Next.js</div><div class="skill-tag">TypeScript</div><div class="skill-tag">HTML5 & CSS3</div><div class="skill-tag">JavaScript (ES6+)</div><div class="skill-tag">Responsive Design</div><div class="skill-tag">Git & Version Control</div><div class="skill-tag">RESTful APIs</div><div class="skill-tag">Testing (Jest, Cypress)</div><div class="skill-tag">Webpack & Build Tools</div><div class="skill-tag">Figma & Design Systems</div>
+              </div>
+            </div>
+          
+          
+            <div>
+              <div style="font-weight:bold;margin-bottom:6px;">Languages</div>
+              <div class="skills-grid">
+                <div class="skill-tag">English (Native)</div><div class="skill-tag">Spanish (Conversational)</div><div class="skill-tag">French (Basic)</div>
+              </div>
+            </div>
+          
+        </div>
+      
+
+      
+        <div class="section">
+          <div class="section-title">References</div>
+          <div class="refs-grid">
+            
+              <div class="ref-item">
+                <div class="ref-name">Michael Chen</div>
+                <div>Lead Developer at TechCorp</div>
+                <div>Phone: +1 (555) 987-6543</div>
+                <div>Email: m.chen@techcorp.com</div>
+              </div>
+            
+              <div class="ref-item">
+                <div class="ref-name">Emily Rodriguez</div>
+                <div>Product Manager at InnovateWeb</div>
+                <div>Phone: +1 (555) 456-7890</div>
+                <div>Email: emily.r@innovateweb.com</div>
+              </div>
+            
+          </div>
+        </div>
+      
+    </body>
+    </html>
+  
